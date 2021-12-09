@@ -1,0 +1,101 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text.Json;
+using System.Xml.Serialization;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Soap;
+using System.Runtime.Serialization.Formatters.Binary;
+
+namespace ConsoleSerialization_1
+{
+
+    [Serializable]
+    class Program
+    {
+        public static void JSONWriteDown(Person[] personList)
+        {
+            string ObjectSerialized = JsonSerializer.Serialize(personList);
+            File.WriteAllText("TestFile1.json", ObjectSerialized);
+        }
+
+        public static void XMLWriteDown(Person[] personList)
+        {
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(Person[]));
+            using (FileStream fs = new FileStream(@"TestFile2.xml", FileMode.OpenOrCreate))
+            {
+                xmlSerializer.Serialize(fs, personList);
+            }
+
+        }
+
+        public static void SOAPwriteDown(Person[] personList)
+        {
+            SoapFormatter soapFormatter = new SoapFormatter();
+
+            using (FileStream fs = new FileStream(@"TestFile3.soap", FileMode.OpenOrCreate))
+            {
+                soapFormatter.Serialize(fs, personList);
+            }
+
+        }
+
+        public static void BINARYwriteDown(Person[] person)
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+
+            using (FileStream fs = new FileStream("TestFile4.dat", FileMode.OpenOrCreate))
+            {
+                formatter.Serialize(fs, person);
+            }
+        }
+
+        public static void Main(string[] args)
+        {
+            Console.WriteLine("Процесс тестовой сериализации.");
+
+            Person p1 = new Person(1, "Иванов", "Иван", "Инженер");
+            Person p2 = new Person(2, "Петров", "Пётр", "Педуктор");
+            Person p3 = new Person(3, "Сидоров", "Сидр", "Дегустатор");
+
+            Person[] persons = { p1, p2, p3 };
+            List<Person> personList = new List<Person>() { p1, p2, p3 };
+
+
+            JSONWriteDown(persons);
+            XMLWriteDown(persons);
+            SOAPwriteDown(persons);
+            BINARYwriteDown(persons);
+
+            Console.WriteLine("Объект сериализован!");
+            Console.ReadKey();
+        }
+
+    }
+
+    [Serializable]
+    public class Person
+    {
+        public int id { get; set; }
+        public string SurName { get; set; }
+        public string Name { get; set; }
+        public string Profession { get; set; }
+
+        public Person() { }
+        public Person(int ID, string surname, string name, string profession)
+        {
+            this.id = ID;
+            this.SurName = surname;
+            this.Name = name;
+            this.Profession = profession;
+        } //не пригодилось. :/  
+
+
+    }
+
+
+
+
+
+
+}

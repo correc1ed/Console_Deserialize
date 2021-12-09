@@ -1,0 +1,136 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text.Json;
+using System.Xml.Serialization;
+using System.Runtime.Serialization.Formatters.Soap;
+using System.Runtime.Serialization.Formatters.Binary;
+
+namespace ConsoleSerialization_1
+{
+
+    [Serializable]
+    class Program
+    {
+        public static void JSONReadDown()
+        {
+
+            Person[] persons;
+            string ObjectJSONfile = File.ReadAllText(nameJSONfile);
+            persons = JsonSerializer.Deserialize<Person[]>(ObjectJSONfile);
+
+            foreach (Person person in persons)
+            {
+                Console.WriteLine($" Id = {person.id} \n Name = {person.Name}\n Surname = {person.SurName}\n Profession = {person.Profession}");
+            }
+        }
+
+        public static void XMLReadDown()
+        {
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(Person[]));
+            using (FileStream fs = new FileStream("TestFile2.xml", FileMode.OpenOrCreate))
+            {
+                Person[] list = (Person[])xmlSerializer.Deserialize(fs);
+                //Console.WriteLine("Получено из XML");
+                foreach (Person person in list)
+                {
+                    Console.WriteLine($" Id: {person.id}\n Фамилия: {person.SurName}\n Имя: {person.Name}\n Профессия: {person.Profession}");
+                }
+            }
+        }
+
+        public static void SOAPreadDown()
+        {
+            SoapFormatter formatter = new SoapFormatter();
+
+            using (FileStream fs = new FileStream("TestFile3.soap", FileMode.OpenOrCreate))
+            {
+                Person[] People = (Person[])formatter.Deserialize(fs);
+
+                foreach (Person person in People)
+                {
+                    Console.WriteLine($" Id: {person.id}\n Фамилия: {person.SurName}\n Имя: {person.Name}\n Профессия: {person.Profession}");
+                }
+            }
+        }
+
+        public static void BINARYreadDown()
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+
+            using (FileStream fs = new FileStream("TestFile4.dat", FileMode.OpenOrCreate))
+            {
+                Person[] persons = (Person[])formatter.Deserialize(fs);
+
+                foreach (Person person in persons)
+                {
+                    Console.WriteLine($" Id: {person.id}\n Фамилия: {person.SurName}\n Имя: {person.Name}\n Профессия: {person.Profession}");
+                }
+
+            }
+        }
+
+
+
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Процесс тестовой десериализации. \n");
+
+            Console.WriteLine("JSON Deserialized: ");
+            Console.WriteLine("--------------------------");
+            JSONReadDown();
+
+            Console.WriteLine("--------------------------");
+            Console.WriteLine("XML Deserialized: ");
+            Console.WriteLine("--------------------------");
+
+            XMLReadDown();
+
+            Console.WriteLine("--------------------------");
+            Console.WriteLine("SOAP Deserialized: ");
+            Console.WriteLine("--------------------------");
+
+            SOAPreadDown();
+
+            Console.WriteLine("--------------------------");
+            Console.WriteLine("BINARY Deserialized: ");
+            Console.WriteLine("--------------------------");
+
+            BINARYreadDown(); // Угадай какую строку я тут забыл написать. НИ ЗА ЧТО НЕ ДОГАДАЕШЬСЯ.
+
+            Console.WriteLine("--------------------------");
+            Console.WriteLine("Объект десериализован!");
+            Console.ReadKey();
+        }
+
+        private const string nameJSONfile = "TestFile1.json";
+
+    }
+
+    [Serializable]
+    public class Person
+    {
+        public int id { get; set; }
+        public string SurName { get; set; }
+        public string Name { get; set; }
+        public string Profession { get; set; }
+
+        public Person() { }
+        public Person(int ID, string surname, string name, string profession)
+        {
+            this.id = ID;
+            this.SurName = surname;
+            this.Name = name;
+            this.Profession = profession;
+        } //не пригодилось. :/  
+
+
+
+    }
+
+
+
+
+
+}
+
