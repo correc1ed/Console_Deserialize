@@ -4,6 +4,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Runtime.Serialization.Formatters.Soap;
 using System.Text.Json;
 using System.Windows.Forms;
+using System.Xml;
 using System.Xml.Serialization;
 
 namespace ConsoleSerialization_1
@@ -12,11 +13,11 @@ namespace ConsoleSerialization_1
     [Serializable]
     class Program
     {
-        public static Person[] JSONReadDown()
+        public static Person[] JSONReadDown(OpenFileDialog openFileDialog)
         {
 
             Person[] persons;
-            string ObjectJSONfile = File.ReadAllText(nameJSONfile);
+            string ObjectJSONfile = File.ReadAllText(openFileDialog.FileName);
             persons = JsonSerializer.Deserialize<Person[]>(ObjectJSONfile);
             Console.WriteLine("JSON Deserialized: "); Console.WriteLine("--------------------------");
 
@@ -31,46 +32,43 @@ namespace ConsoleSerialization_1
         }
 
 
-        public static Person[] TRASH_ReadDown()
+        public static Person[] TRASH_ReadDown(OpenFileDialog openFileDialog)
         {
 
-            Person[] persons;
-            string ObjectJSONfile = File.ReadAllText(nameJSONfile);
-            persons = JsonSerializer.Deserialize<Person[]>(ObjectJSONfile);
+            Person[] persons = new Person[1];
             return persons;
         }
 
-        public static Person[] XMLReadDown()
+        public static Person[] XMLReadDown(OpenFileDialog openFileDialog)
         {
 
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(Person[]));
-
+            Stream stream = openFileDialog.OpenFile();
             Person[] list;
 
-            using (FileStream fs = new FileStream("TestFile2.xml", FileMode.OpenOrCreate))
+            using (XmlReader reader = XmlReader.Create(openFileDialog.FileName))
             {
+                list = (Person[])xmlSerializer.Deserialize(reader);
+            }
 
-                list = (Person[])xmlSerializer.Deserialize(fs);
-
-                Console.WriteLine("XML Deserialized: "); Console.WriteLine("--------------------------");
-
+                Console.WriteLine("XML Deserialized: "); Console.WriteLine("--------------------------"); // ДОДЕЛАТЬ.
                 foreach (Person person in list)
                 {
                     Console.WriteLine($" Id: {person.id}\n Фамилия: {person.SurName}\n Имя: {person.Name}\n Профессия: {person.Profession}");
                 }
-                Console.WriteLine("--------------------------");
-            }
+               Console.WriteLine("--------------------------");
+            
 
             return list;
         }
 
-        public static Person[] SOAPreadDown()
+        public static Person[] SOAPreadDown(OpenFileDialog openFileDialog)
         {
             SoapFormatter formatter = new SoapFormatter();
 
             Person[] People;
 
-            using (FileStream fs = new FileStream("TestFile3.soap", FileMode.OpenOrCreate))
+            using (FileStream fs = new FileStream(openFileDialog.FileName, FileMode.OpenOrCreate))
             {
                 People = (Person[])formatter.Deserialize(fs);
                 Console.WriteLine("SOAP Deserialized: "); Console.WriteLine("--------------------------");
@@ -85,12 +83,12 @@ namespace ConsoleSerialization_1
             return People;
         }
 
-        public static Person[] BINARYreadDown()
+        public static Person[] BINARYreadDown(OpenFileDialog openFileDialog)
         {
             BinaryFormatter formatter = new BinaryFormatter();
             Person[] persons;
 
-            using (FileStream fs = new FileStream("TestFile4.dat", FileMode.OpenOrCreate))
+            using (FileStream fs = new FileStream(openFileDialog.FileName, FileMode.OpenOrCreate))
             {
                 persons = (Person[])formatter.Deserialize(fs);
                 Console.WriteLine("BINARY Deserialized: "); Console.WriteLine("--------------------------");
@@ -200,28 +198,28 @@ namespace ConsoleSerialization_1
             try
             {
                 using (OpenFileDialog openFileDialog = new OpenFileDialog())
-                {
-                    openFileDialog.InitialDirectory = "c:\\";
+                {                    
+                    openFileDialog.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory + "\\";
                     openFileDialog.Filter = "deserialize files (*.json)|*.json|deserialize files (*.xml)|*.xml|deserialize files (*.soap)|*.soap|deserialize files (*.dat)|*.dat|All files (*.*)|*.*";
                     openFileDialog.FilterIndex = 2;
                     openFileDialog.RestoreDirectory = true;
                     openFileDialog.ShowDialog();
-
-                    Person[] persons = TRASH_ReadDown();
+                    
+                    Person[] persons = TRASH_ReadDown(openFileDialog);
 
                     switch (openFileDialog.FileName.Substring(openFileDialog.FileName.Length - 4))
                     {
                         case "json":
-                            persons = JSONReadDown();
+                            persons = JSONReadDown(openFileDialog);
                             break;
                         case ".xml":
-                            persons = XMLReadDown();
+                            persons = XMLReadDown(openFileDialog);
                             break;
                         case "soap":
-                            persons = SOAPreadDown();
+                            persons = SOAPreadDown(openFileDialog);
                             break;
                         case ".dat":
-                            persons = BINARYreadDown();
+                            persons = BINARYreadDown(openFileDialog);
                             break;
 
                     }
@@ -230,13 +228,13 @@ namespace ConsoleSerialization_1
 
                     Console.Clear();
 
-                    string promt = "Хотите-ли вы дополнить данный файл?";
-                    string[] options = { "Да", "Нет" };
-                    Menu menu = new Menu(promt, options);
+                    string promt_for_YESorNO = "Хотите-ли вы дополнить данный файл?";
+                    string[] options_for_YESorNO = { "Да", "Нет" };
+                    Menu menu_for_YESorNO = new Menu(promt_for_YESorNO, options_for_YESorNO);
 
-                    int selectedIndex = menu.Vote();
+                    int selectedIndex_for_YESorNO = menu_for_YESorNO.Vote();
 
-                    if (selectedIndex == 0)
+                    if (selectedIndex_for_YESorNO == 0)
                     {
                         Person person = new Person();
 
@@ -249,12 +247,12 @@ namespace ConsoleSerialization_1
                         persons[persons.Length - 1] = person;
                     }
 
-                    string[] options2 = { ".json", ".xml", ".soap", ".dat" };
-                    Menu menu2 = new Menu("Выберите формат, в котором хотите десериализовать файл", options2);
+                    string[] options_for_Formats = { ".json", ".xml", ".soap", ".dat" };
+                    Menu menu_for_Formats = new Menu("Выберите формат, в котором хотите десериализовать файл", options_for_Formats);
 
-                    int selectedIndex2 = menu2.Vote();
+                    int selectedIndex_for_Formats = menu_for_Formats.Vote();
 
-                    switch (selectedIndex2)
+                    switch (selectedIndex_for_Formats)
                     {
                         case 0:
                             JSONWriteDown(persons);
@@ -271,18 +269,15 @@ namespace ConsoleSerialization_1
                     }
 
                     Console.Clear();
+                    Console.WriteLine("Объект десериализован!");
+                    Console.ReadKey();
 
                 }
             }
 
             catch (Exception exception) { Console.WriteLine(exception.Message); }
 
-
-            Console.WriteLine("Объект десериализован!");
-            Console.ReadKey();
         }
-
-        private const string nameJSONfile = "TestFile1.json";
 
     }
 

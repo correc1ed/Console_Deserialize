@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<ArrayOfPerson xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Person>
+    <id>1</id>
+    <SurName>Иванов</SurName>
+    <Name>Иван</Name>
+    <Profession>Инженер</Profession>
+  </Person>
+  <Person>
+    <id>2</id>
+    <SurName>Петров</SurName>
+    <Name>Пётр</Name>
+    <Profession>Педуктор</Profession>
+  </Person>
+  <Person>
+    <id>3</id>
+    <SurName>Сидоров</SurName>
+    <Name>Сидр</Name>
+    <Profession>Дегустатор</Profession>
+  </Person>
+  <Person>
+    <id>5</id>
+    <SurName>лалалалал</SurName>
+    <Name>аламлал</Name>
+    <Profession>проститутка ебаная</Profession>
+  </Person>
+</ArrayOfPerson>

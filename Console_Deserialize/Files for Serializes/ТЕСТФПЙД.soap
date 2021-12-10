@@ -1,0 +1,34 @@
+<SOAP-ENV:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:clr="http://schemas.microsoft.com/soap/encoding/clr/1.0" SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+<SOAP-ENV:Body>
+<SOAP-ENC:Array SOAP-ENC:arrayType="a1:Person[4]" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/ConsoleSerialization_1/Console_Deserialize%2C%20Version%3D1.0.0.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3Dnull">
+<item href="#ref-3"/>
+<item href="#ref-4"/>
+<item href="#ref-5"/>
+<item href="#ref-6"/>
+</SOAP-ENC:Array>
+<a1:Person id="ref-3" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/ConsoleSerialization_1/Console_Deserialize%2C%20Version%3D1.0.0.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3Dnull">
+<_x003C_id_x003E_k__BackingField>1</_x003C_id_x003E_k__BackingField>
+<_x003C_SurName_x003E_k__BackingField id="ref-7">Иванов</_x003C_SurName_x003E_k__BackingField>
+<_x003C_Name_x003E_k__BackingField id="ref-8">Иван</_x003C_Name_x003E_k__BackingField>
+<_x003C_Profession_x003E_k__BackingField id="ref-9">Инженер</_x003C_Profession_x003E_k__BackingField>
+</a1:Person>
+<a1:Person id="ref-4" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/ConsoleSerialization_1/Console_Deserialize%2C%20Version%3D1.0.0.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3Dnull">
+<_x003C_id_x003E_k__BackingField>2</_x003C_id_x003E_k__BackingField>
+<_x003C_SurName_x003E_k__BackingField id="ref-10">Петров</_x003C_SurName_x003E_k__BackingField>
+<_x003C_Name_x003E_k__BackingField id="ref-11">Пётр</_x003C_Name_x003E_k__BackingField>
+<_x003C_Profession_x003E_k__BackingField id="ref-12">Педуктор</_x003C_Profession_x003E_k__BackingField>
+</a1:Person>
+<a1:Person id="ref-5" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/ConsoleSerialization_1/Console_Deserialize%2C%20Version%3D1.0.0.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3Dnull">
+<_x003C_id_x003E_k__BackingField>3</_x003C_id_x003E_k__BackingField>
+<_x003C_SurName_x003E_k__BackingField id="ref-13">Сидоров</_x003C_SurName_x003E_k__BackingField>
+<_x003C_Name_x003E_k__BackingField id="ref-14">Сидр</_x003C_Name_x003E_k__BackingField>
+<_x003C_Profession_x003E_k__BackingField id="ref-15">Дегустатор</_x003C_Profession_x003E_k__BackingField>
+</a1:Person>
+<a1:Person id="ref-6" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/ConsoleSerialization_1/Console_Deserialize%2C%20Version%3D1.0.0.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3Dnull">
+<_x003C_id_x003E_k__BackingField>5</_x003C_id_x003E_k__BackingField>
+<_x003C_SurName_x003E_k__BackingField id="ref-16">лалалалал</_x003C_SurName_x003E_k__BackingField>
+<_x003C_Name_x003E_k__BackingField id="ref-17">аламлал</_x003C_Name_x003E_k__BackingField>
+<_x003C_Profession_x003E_k__BackingField id="ref-18">проститутка ебаная</_x003C_Profession_x003E_k__BackingField>
+</a1:Person>
+</SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
